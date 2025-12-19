@@ -1,0 +1,287 @@
+/* Glassmorphism Theme for Certificate Creator */
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --primary-gradient: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
+    --accent-teal: #00bcd4;
+    --accent-purple: #9c27b0;
+    --text-main: #ffffff;
+    --text-muted: #rgba(255, 255, 255, 0.7);
+    --bg-dark: #0f172a;
+}
+
+body.certificate-app-body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    background-image:
+        radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+        radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+    min-height: 100vh;
+}
+
+/* Glass Card */
+.glass-pane {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
+}
+
+.app-container {
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 80px);
+    /* Subtract header height */
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Left Sidebar (Controls) */
+.controls-sidebar {
+    width: 350px;
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--glass-border) transparent;
+}
+
+/* Right Main Area (Preview) */
+.preview-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Canvas Container */
+.canvas-wrapper {
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    border-radius: 4px;
+    overflow: hidden;
+    /* Ensure canvas doesn't bleed */
+}
+
+canvas#cert-canvas {
+    display: block;
+    max-width: 100%;
+    max-height: 80vh;
+    /* Limit height to viewport */
+    object-fit: contain;
+}
+
+/* Handles on Canvas (simulated via overlaid divs if needed, or drawn) 
+   Actually, the requirement says "Handles". Drawing them on canvas is easier for performance, 
+   but HTML overlays are better for interaction. Let's try HTML overlays first? 
+   No, Canvas interaction is smoother for scaling with the image. 
+   We will treat the canvas as the single source of truth.
+*/
+
+/* Custom Inputs */
+.glass-input {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.glass-input:focus {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: var(--accent-teal);
+    outline: none;
+}
+
+.glass-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.glass-btn.primary {
+    background: var(--primary-gradient);
+    border: none;
+}
+
+/* Custom Checkboxes in List */
+.name-item {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.name-item input[type="checkbox"] {
+    accent-color: var(--accent-teal);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.name-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.name-item.active {
+    background: rgba(255, 255, 255, 0.15);
+    border-right: 3px solid var(--accent-teal);
+}
+
+/* Switches */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: var(--accent-purple);
+}
+
+input:checked+.slider:before {
+    transform: translateX(20px);
+}
+
+.slider.round {
+    border-radius: 20px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Icon Buttons */
+.icon-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Sliders */
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    margin-top: -6px;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+/* RTL Support */
+body.rtl {
+    direction: rtl;
+}
+
+body.rtl .name-item.active {
+    border-right: none;
+    border-left: 3px solid var(--accent-teal);
+}
+
+body.rtl .controls-sidebar {
+    border-right: none;
+    /* In case specific borders */
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .app-container {
+        flex-direction: column-reverse;
+        height: auto;
+        overflow: visible;
+    }
+
+    .controls-sidebar {
+        width: 100%;
+        min-width: 0;
+    }
+
+    canvas#cert-canvas {
+        max-height: 60vh;
+    }
+}

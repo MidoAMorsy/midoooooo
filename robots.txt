@@ -1,0 +1,27 @@
+# Ahmed Ashraf Portfolio - Robots.txt
+# https://ahmedmidoo.com
+
+User-agent: *
+Allow: /
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /uploads/attendance/
+Disallow: /uploads/certificates/
+
+# Allow specific file types
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.svg$
+
+# Sitemap
+Sitemap: https://ahmedmidoo.com/sitemap.xml
+
+# Crawl-delay for politeness
+Crawl-delay: 1

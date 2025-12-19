@@ -1,0 +1,16 @@
+
+/**
+ * Get uploaded file URL with fallback
+ */
+function getUploadedUrl($filename, $directory = 'images', $fallback = 'placeholder.jpg')
+{
+    if (empty($filename)) {
+        return ASSETS_URL . '/images/' . $fallback;
+    }
+
+    if (filter_var($filename, FILTER_VALIDATE_URL)) {
+        return $filename;
+    }
+
+    return UPLOADS_URL . '/' . $directory . '/' . $filename;
+}
